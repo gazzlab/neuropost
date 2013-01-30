@@ -49,7 +49,7 @@ var library = {
 //  Global namespace.
 //#######################################################################
 
-var history_list = [];
+var history_list = [], ns = {};
 
 
 $(function() {
@@ -58,12 +58,11 @@ $(function() {
 //#######################################################################
 //  Render Stack.
 //#######################################################################
-
 function bar() {
   var n = history_list.length;
   var sd = $('#stack_display');
   sd.contents().remove();
-  stack_item(history_list[n - 1], sd);
+  stack_item(history_list[history_list.length - 1], sd);
 }
 
 function stack_item(stack, list) {
@@ -97,6 +96,16 @@ function display_array(A, list) {
 //  Interpret commands and update the display.
 //#######################################################################
 
+  function post_command(cmd) {
+//    console.log('post_command', cmd);
+    var I = xerblin.interpret(ns.I, cmd);
+//    console.log('post_command', I);
+    ns.I = I;
+    history_list[0] = I[0];
+    bar();
+    create_dictionary_buttons(_.keys(xerblin.to_obj(I[1])).sort());
+  }
+  
   function create_dictionary_buttons(names) {
     $("#dictionary_buttons").find('a').remove();
     _.each(names, function(name) {
@@ -104,19 +113,10 @@ function display_array(A, list) {
     });
     $("#dictionary_buttons").find('a').button().click(function() {
       var cmd = $(this).text();
-      post_command(cmd);
+      post_command([cmd]);
       return false;
     });
   }
-
-  function post_command(cmd) {
-    $.post("/step", {"command":cmd}, function(data) {
-      history_list.push(data.result[0]);
-      bar();
-      create_dictionary_buttons(data.result[1]);
-    });
-  }
-
 
 //#######################################################################
 //  Set up the controls.
@@ -125,7 +125,7 @@ function display_array(A, list) {
   $("#meta_controls").buttonset();
 
   $("form").submit(function() {
-    var command = $("#commande").val();
+    var command = $("#commande").val().split(/\s+/);
     post_command(command);
     $("#commande").val('');
     return false;
@@ -144,12 +144,20 @@ function display_array(A, list) {
     return false;
   });
 
-
 //#######################################################################
-//  Initial Interpreter Display.
+//  Create Interpreter.
 //#######################################################################
-
-  post_command("");
+  (function() {
+    var I = xerblin.create_new_interpreter();
+    _.each(library, function(value, key) {
+      I[1] = xerblin.insert(I[1], key, value);
+    });
+    ns.I = I;
+    history_list.push(ns.I[0]);
+    bar();
+    var names = _.keys(xerblin.to_obj(I[1])).sort();
+    create_dictionary_buttons(names);
+  })();
 
 });
 
