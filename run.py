@@ -19,11 +19,81 @@
 #
 from os.path import expanduser, exists, join
 from argparse import ArgumentParser
-from pickle import Unpickler
-import logging, sys
+import pickle, logging, sys
+from dulwich.repo import Repo, NotGitRepository
+from xerblin import World, items
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
+
+SYSTEM_PICKLE = 'system.pickle'
+
+
+class CommitWorldMixin(object):
+
+  def __init__(self, *a, **b):
+    self.commit_thing = b.pop('commit_thing')
+    super(CommitWorldMixin, self).__init__(*a, **b)
+
+  def setCurrentState(self, state):
+    super(CommitWorldMixin, self).setCurrentState(state)
+    self.commit_thing()
+
+
+class CommitWorld(CommitWorldMixin, World, object):
+    pass
+
+
+def make_commit_thing(path, files):
+  log = logging.getLogger('COMMIT')
+  try:
+    repo = Repo(path)
+  except NotGitRepository:
+    log.critical("%r isn't a repository!", path)
+    raise ValueError("%r isn't a repository!" % (path,))
+
+  # Note that we bind the args as defaults rather than via a closure so
+  # you can override them later if you want.
+  def commit(files=files, repo=repo, log=log):
+    repo.stage(files)
+    commit_sha = repo.do_commit('autosave')
+    log.info('commit %s', commit_sha)
+
+  return commit
+
+
+def initialize_repo(path, state):
+  log = logging.getLogger('INIT_REPO')
+  if not exists(path):
+    log.critical("%r doesn't exist!", path)
+    raise ValueError("%r doesn't exist!" % (path,))
+
+  try:
+    Repo(path)
+  except NotGitRepository:
+    # Good! That's what we expect.
+    repo = Repo.init(path)
+    log.info('%r created.', repo)
+  else:
+    # No good! We are an initialize function, nothing else.
+    log.critical('Repository already exists at %r', path)
+    raise ValueError('Repository already exists at %r' % (path,))
+
+  system_pickle_file_name = join(path, SYSTEM_PICKLE)
+  pickle.dump(state, open(system_pickle_file_name, 'wb'))
+  log.info('%s written.', system_pickle_file_name)
+
+  repo.stage([SYSTEM_PICKLE])
+  staged = list(repo.open_index())
+  log.info('Files staged: ' + ', '.join(['%s'] * len(staged)), *staged)
+  commit = repo.do_commit('Initial commit.')
+  log.info('Initial commit done. %s', commit)
+
+
+##################################################
+##################################################
+##################################################
 
 
 # First parse command line args if any.
@@ -54,16 +124,14 @@ if not exists(args.roost):
 
 # Initialize the "roost" directory if requested.
 if args.init:
-  from gitstore import initialize_repo
   from xerblin import ROOT
   initialize_repo(args.roost, ROOT)
 
 
-from gitstore import SYSTEM_PICKLE
 state_file_name = join(args.roost, SYSTEM_PICKLE)
 try:
   with open(state_file_name) as f:
-    up = Unpickler(f)
+    up = pickle.Unpickler(f)
     # Pull out all the sequentially saved state, command, state, ... data.
     # This loop will break after the last saved state is loaded leaving
     # the last saved state in the 'state' variable
@@ -80,7 +148,6 @@ except IOError, e:
 
 # Create a commit_thing to let us save our state to the git repo after
 # changes.
-from gitstore import make_commit_thing
 try:
   commit_thing = make_commit_thing(args.roost, [SYSTEM_PICKLE])
 except ValueError, e:
@@ -91,7 +158,6 @@ except ValueError, e:
 
 # Now that the config_file has had a chance to do its thing, import the
 # system and run.
-from gitstore import CommitWorld
 w = CommitWorld(
   initial=state,
   save_file=state_file_name,
