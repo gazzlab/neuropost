@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 #    Copyright © 2012 Simon Forman
@@ -17,6 +18,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Pigeon Computer.  If not, see <http://www.gnu.org/licenses/>.
 #
+'''
+Run the Flask server with a World that stores its history in a git repo.
+'''
 from os.path import expanduser, exists, join
 from argparse import ArgumentParser
 import pickle, logging, sys
@@ -89,11 +93,6 @@ def initialize_repo(path, state):
   log.info('Files staged: ' + ', '.join(['%s'] * len(staged)), *staged)
   commit = repo.do_commit('Initial commit.')
   log.info('Initial commit done. %s', commit)
-
-
-##################################################
-##################################################
-##################################################
 
 
 # First parse command line args if any.
