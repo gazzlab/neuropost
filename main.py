@@ -24,6 +24,9 @@ from flask import Flask, render_template, Response, request
 from xerblin import World, items
 
 
+W = World()
+
+
 WEBFACTION_TEMPLATES = '/home/calroc/webapps/smlaum/templates'
 
 
@@ -55,12 +58,7 @@ def _p(n):
       }
 
 
-#: For now we just use a global World object, innaminute I'll
-#: bring in the git storage stuff.
-W = World()
-
-
-def as_json(w=W):
+def as_json(w):
   '''
   Return the current state of the World object w as a JSON string.
   Functions are converted to JS objects containing the functions' names.
