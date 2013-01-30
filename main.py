@@ -18,9 +18,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Xerblin.  If not, see <http://www.gnu.org/licenses/>.
 #
-import os
+import os, json
+from types import FunctionType
 from flask import Flask, render_template, Response, request
-from shim import get_session, as_json
+from xerblin import World, items
 
 
 WEBFACTION_TEMPLATES = '/home/calroc/webapps/smlaum/templates'
@@ -36,6 +37,41 @@ else:
 @app.route("/")
 def x():
   return render_template('xerblin.html')
+
+
+def _p(n):
+  '''
+  Convert functions into JSON representations.
+  '''
+  if isinstance(n, FunctionType):
+    return {
+      'class': '__function__',
+      'name': n.__name__,
+      }
+
+
+#: For now we just use a global World object, innaminute I'll
+#: bring in the git storage stuff.
+W = World()
+
+
+def as_json(w=W):
+  '''
+  Return the current state of the World object w as a JSON string.
+  Functions are converted to JS objects containing the functions' names.
+  '''
+  stack, dictionary = w.getCurrentState()
+  dictionary = list(name for name, function in items(dictionary))
+  return json.dumps((stack, dictionary), default=_p, indent=2)
+
+
+def get_session(request):
+  '''
+  Return the World object for the request's session.
+  (This is currently a stub that just returns the module
+  global World.)
+  '''
+  return W
 
 
 @app.route("/step", methods=['POST'])
