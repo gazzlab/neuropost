@@ -93,7 +93,7 @@ function display_array(A, list) {
 
 
 //#######################################################################
-//  Send commands to the server and update the display(s).
+//  Interpret commands and update the display.
 //#######################################################################
 
   function post_command(cmd) {
