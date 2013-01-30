@@ -39,6 +39,11 @@ def x():
   return render_template('xerblin.html')
 
 
+@app.route("/foo")
+def foo():
+  return render_template('xerblin.html', foo=True)
+
+
 def _p(n):
   '''
   Convert functions into JSON representations.
