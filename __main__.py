@@ -54,12 +54,12 @@ if not exists(args.roost):
 
 # Initialize the "roost" directory if requested.
 if args.init:
-  from Xerblin.gitstore import initialize_repo, list_words, SYSTEM_PICKLE
+  from Xerblin.gitstore import initialize_repo
   from Xerblin.xerblin import ROOT
-  text = list_words(ROOT[1])
-  initialize_repo(args.roost, ROOT, text, not args.no_config)
+  initialize_repo(args.roost, ROOT)
 
 
+from Xerblin.gitstore import SYSTEM_PICKLE
 state_file_name = join(args.roost, SYSTEM_PICKLE)
 try:
   with open(state_file_name) as f:

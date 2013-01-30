@@ -60,7 +60,7 @@ def make_commit_thing(path, files):
   return commit
 
 
-def initialize_repo(path, state, text):
+def initialize_repo(path, state):
   log = logging.getLogger('INIT_REPO')
   if not exists(path):
     log.critical("%r doesn't exist!", path)
