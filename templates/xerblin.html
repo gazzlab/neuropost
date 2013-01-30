@@ -26,10 +26,9 @@ h1, h2, h3, h4, h5, h6, .heavy {
 }
 
 
-ul {
+#container {
   border: 1px dashed gray;
-  padding: 3px;
-  margin: 3px;
+  padding-left: 2em;
 }
 
 #commande, #meta_controls {
@@ -46,202 +45,38 @@ form {
 }
 
 #docs {
-/*  font-family: 'Cutive',sans-serif; */
+/*
+  font-family: 'Cutive',sans-serif;
   max-width: 33em;
   margin-left: 5em;
-  
+*/
 }
 #docs ul {
   border: none;
   margin-left: 2em;
 }
 
+#container ul {
+  border: 1px dashed gray;
+  padding: 3px;
+  margin: 3px;
+}
+
 </style>
 {% endblock %}
 {% block script %}
-<script>
-
-var library = {
-
-  self: function self(I) {
-    return [[I, I[0]], I[1]];
-  },
-
-  jq: function jq(I) {
-    I[0][0] = $(I[0][0]);
-    return I;
-  },
-
-  append: function append(I) {
-    var t = xerblin.pop(I[0], 2);
-    var result = t[1].append(t[0]);
-    return [[result, t[2]], I[1]];
-  },
-
-/*
-    : function (I) {
-      return [I[0], I[1]];
-    },
-  },
-*/
-
-}
-
-
-//#######################################################################
-//  Global namespace.
-//#######################################################################
-
-var history_list = [], ns = {};
-
-
-$(function() {
-
-
-//#######################################################################
-//  Render Stack.
-//#######################################################################
-function bar() {
-  var n = history_list.length;
-  var sd = $('#stack_display');
-  sd.contents().remove();
-  stack_item(history_list[history_list.length - 1], sd);
-}
-
-function stack_item(stack, list) {
-  if (stack.length == 0) { return; };
-  display_item(stack[0], list);
-  stack_item(stack[1], list);
-}
-
-function display_item(item, list) {
-  if (_.isArray(item)) {
-    var li = $('<li></li>');
-    list.append(li);
-    display_array(item, li);
-  } else if (_.isString(item)) {
-    list.append('<li>&quot;' + item + '&quot;');
-  } else if (_.isObject(item) && !_.isUndefined(item.name)) {
-    list.append('<li>' + item.name + '()');
-  } else {
-    list.append('<li>' + item);
-  }
-}
-
-function display_array(A, list) {
-  var d = $('<ul></ul>');
-  _.each(A, function(item) { return display_item(item, d); });
-  list.append(d);
-}
-
-
-//#######################################################################
-//  Send commands to the server and update the display(s).
-//#######################################################################
-
-  function post_command(cmd) {
-//    console.log('post_command', cmd);
-    var I = xerblin.interpret(ns.I, cmd);
-//    console.log('post_command', I);
-    ns.I = I;
-    history_list[0] = I[0];
-    bar();
-    create_dictionary_buttons(_.keys(xerblin.to_obj(I[1])).sort());
-  }
-  
-  function create_dictionary_buttons(names) {
-    $("#dictionary_buttons").find('a').remove();
-    _.each(names, function(name) {
-      $("#dictionary_buttons").append('<a href="#" id="' + name + '">' + name + '</a>');
-    });
-    $("#dictionary_buttons").find('a').button().click(function() {
-      var cmd = $(this).text();
-      post_command([cmd]);
-      return false;
-    });
-  }
-
-//#######################################################################
-//  Set up the controls.
-//#######################################################################
-
-  $("#meta_controls").buttonset();
-
-  $("form").submit(function() {
-    var command = $("#commande").val().split(/\s+/);
-    post_command(command);
-    $("#commande").val('');
-    return false;
-  });
-
-  $("#runit").click(function() { return $("form").submit(); });
-
-  $("#stackit").click(function() {
-    var cmd = ['"' + $("#commande").val() + '"'];
-    post_command(cmd);
-    return false;
-  });
-
-  $("#clear_entry").button().click(function() {
-    $("#commande").val("");
-    return false;
-  });
-
-//#######################################################################
-//  Create Interpreter.
-//#######################################################################
-  (function() {
-    var I = xerblin.create_new_interpreter();
-    _.each(library, function(value, key) {
-      I[1] = xerblin.insert(I[1], key, value);
-    });
-    ns.I = I;
-    history_list.push(ns.I[0]);
-    bar();
-    var names = _.keys(xerblin.to_obj(I[1])).sort();
-    create_dictionary_buttons(names);
-  })();
-
-});
-
-</script>
+<script src="./static/xerblin.slim.js"></script>
+<script src="./static/main.js"></script>
 {% endblock %}
 {% block body %}
+<h1>Xerblin</h1>
+<h3>a Human-Computer Interface</h3>
 
-<h1>Hi There!</h1>
 <p>Welcome to the <span class="heavy">Xerblin Demo</span>, a live interactive interpreter embedded in a webpage.</p>
-
-<div id="container">
-
-<div style="float:left">
- <h3>Stack of Data</h3>
- <ul id="stack_display"></ul>
-</div>
-
-<div style="float:right;width:62%">
- <h3>Dictionary of Commands</h3>
- <div id="dictionary_buttons"></div>
-</div>
-
-<div style="clear:both;"></div>
-<div>
- <form>
-  <input id="commande" name="command" type="text" />
-  <div id="meta_controls">
-   <a href="#" id="runit">interpret</a>
-   <a href="#" id="stackit">push as text</a>
-   <a href="#" id="clear_entry">clear text</a>
-  </div>
- </form>
-</div>
-
-</div>
 
 <div id="docs">
 
-<h3>Xerblin is a Human-Computer Interface</h3>
-
-<p>It provides a single metaphor for interacting with computers that's simple enough to teach to children yet provides facilities that are useful to advanced programmers. It can integrate all levels of software from the <a href="http://thinkpigeon.blogspot.com/2012/12/crushingly-simple-user-interface.html">Desktop</a> to <a href="https://github.com/PhoenixBureau/PigeonComputer/blob/master/docs/pigeon_firmware.rst">assembly language</a>.
+<p>Xerblin provides a single metaphor for interacting with computers that's simple enough to teach to children yet provides facilities that are useful to advanced programmers. It can integrate all levels of software from the <a href="http://thinkpigeon.blogspot.com/2012/12/crushingly-simple-user-interface.html">Desktop</a> to <a href="https://github.com/PhoenixBureau/PigeonComputer/blob/master/docs/pigeon_firmware.rst">assembly language</a>.
 
 <p>There are three basic user-facing elements to a Xerblin system.
 
@@ -250,6 +85,32 @@ function display_array(A, list) {
     <li><span class="heavy">Dictionary</span> - a place to keep commands. Any command that is inscribed in the Dictionary can be run from the user interface.
     <li><span class="heavy">Interpreter</span> - A very simple command interpreter that takes care of running commands with the Stack. 
 </ul>
+
+  <div id="container">
+
+  <div style="float:left">
+   <h3>Stack of Data</h3>
+   <ul id="stack_display"></ul>
+  </div>
+
+  <div style="float:right;width:62%">
+   <h3>Dictionary of Commands</h3>
+   <div id="dictionary_buttons"></div>
+  </div>
+
+  <div style="clear:both;"></div>
+  <div>
+   <form>
+    <input id="commande" name="command" type="text" />
+    <div id="meta_controls">
+     <a href="#" id="runit">interpret</a>
+     <a href="#" id="stackit">push as text</a>
+     <a href="#" id="clear_entry">clear text</a>
+    </div>
+   </form>
+  </div>
+
+  </div>
 
 <p>In addition to the above three UI elements there are discrete commands that provide the basic functionality of the system and that can be composed into more complex commands. They live in the Dictionary and act upon the Stack. They can be composed into compound commands using three primal relations:
 
