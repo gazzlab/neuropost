@@ -5,7 +5,7 @@ General User Interface Metaphor
 
 ## Summary
 
-It provides a single metaphor for interacting with computers that's simple enough to teach to children yet provides facilities that are useful to programmers. It can integrate all levels of software from the desktop to assembly language.
+It provides a single metaphor for interacting with computers that's simple enough to teach to children yet provides facilities that are useful to programmers. It integrates all levels of software from the desktop to assembly language.
 
 There are three basic user-facing elements to a Xerblin system.
 
@@ -19,21 +19,18 @@ In addition to the above three UI elements there are discrete commands that prov
 *    Loop - do something over again.
 *    Branch - do one thing or another.
 
-Using the above four relations compound commands can be composed to perform more involved tasks using the built-in or user-provided "primitives" and other compound commands.
-
-Composition can be done by program, by command line, in the GUI using the mouse and keyboard, or by means of parsing languages.
+Using the above three relations compound commands can be composed to perform more involved tasks using the built-in or user-provided "primitives" and other compound commands.  Composition can be done by program, by command line, in the GUI using the mouse and keyboard, or by means of parsing languages.
 
 With a rich set of basic commands and the four kinds of compound commands you have a completely general computer interface that allows for customization and flexibility and can be easily understood and mastered by the average user.
 
 ### Some links:
 
-    The old project on Google Code. This is still the reference implementation.
-    Pigeon Computer is a project I have to develop a simple system to teach computer programing. It includes both a low-level version in assembly language and a high-level version in Python with a Tkinter GUI.
-    Experimental web versions. The Python version embedded in a Flask server, and a Javascript port of the Xerblin engine along with a couple of demo pages.
+*   The [old project on Google Code][a]. This is still the reference implementation.
+*   [Pigeon Computer][b] is a project I have to develop a simple system to teach computer programing. It includes both a low-level version in assembly language and a high-level version in Python with a Tkinter GUI.
 
 ### Historical Info
 
-Way back in the day, over a decade ago, the original source for what became "xerblin" was a book "System Design from Provably Correct Constructs" by Dr. James Martin founder, Oxford Martin School (personal website).
+Way back in the day, over a decade ago, the original source for what became "xerblin" was a book ["System Design from Provably Correct Constructs"][c] by [Dr. James Martin][d] [founder, Oxford Martin School][e] ([personal website][f]).
 
 ### Must mention:
 
@@ -41,7 +38,24 @@ Way back in the day, over a decade ago, the original source for what became "xer
 *   Forth (Moore, et. al.)
 *   Jef Raskin, "The Humane Interface"
 *   Ted Nelson, "Dream Machines"/"Computer Lib"
-*   Dynabook, (Kay et. al.) 
+*   Alan Kay, Dynabook, VPRI et. al.
 *   Chris Okasaki, "Purely Functional Data Structures"
+
+
+
+[a]: https://code.google.com/p/xerblin/
+[b]: http://thinkpigeon.blogspot.com/?view=mosaic
+
+[c]: http://lccn.loc.gov/84016063 "System Design from Provably Correct Constructs"
+[d]: https://en.wikipedia.org/wiki/James_Martin_%28author%29 "Dr. Martin on Wikipedia"
+[e]: http://www.oxfordmartin.ox.ac.uk/founder/
+[f]: http://www.jamesmartin.com/
+
+
+
+
+
+
+
 
 
