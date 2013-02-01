@@ -21,7 +21,7 @@ In addition to the above three UI elements there are discrete commands that prov
 
 Using the above three relations compound commands can be composed to perform more involved tasks using the built-in or user-provided "primitives" and other compound commands.  Composition can be done by program, by command line, in the GUI using the mouse and keyboard, or by means of parsing languages.
 
-With a rich set of basic commands and the four kinds of compound commands you have a completely general computer interface that allows for customization and flexibility and can be easily understood and mastered by the average user.
+With a rich set of basic commands and the three kinds of compound commands you have a completely general computer interface that allows for customization and flexibility and can be easily understood and mastered by the average user.
 
 ### Some links:
 
@@ -33,6 +33,8 @@ With a rich set of basic commands and the four kinds of compound commands you ha
 Way back in the day, over a decade ago, the original source for what became "xerblin" was a book ["System Design from Provably Correct Constructs"][c] by [Dr. James Martin][d] [founder, Oxford Martin School][e] ([personal website][f]).
 
 ### Must mention:
+
+I need to expand on each of these eventually.
 
 *   Oberon (Wirth, et. al.)
 *   Forth (Moore, et. al.)
