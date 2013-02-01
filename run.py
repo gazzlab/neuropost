@@ -107,11 +107,7 @@ parser.add_argument(
   '-i', '--init',
   default=False,
   action='store_true',
-  help=('Initialize the "roost" directory with git repo, log, system.pickle '
-        'and default config file.  '
-        "If '--no-config' is passed the default config file will NOT be "
-        'created.)'
-        ),
+  help='Initialize the "roost" directory with git repo and system.pickle.',
   )
 args = parser.parse_args()
 
