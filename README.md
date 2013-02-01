@@ -87,7 +87,7 @@ Here is the output of the `-h` switch which shows the command line options for t
       -h, --help            show this help message and exit
       -r ROOST, --roost ROOST
                             Use this directory as home for the Pigeon system.
-                            (default: /home/sforman/.pigeon). (I apologize for the
+                            (default: $HOME/.pigeon). (I apologize for the
                             terrible pun.)
       -i, --init            Initialize the "roost" directory with git repo and
                             system.pickle.
