@@ -55,6 +55,64 @@ I need to expand on each of these eventually.
 
 
 
+## Installation
+
+I use virtualenv and pip on an Ubuntu Linux system and installation from GitHub is straightforward:
+
+
+    sforman@callix:~$ git clone git@github.com:PhoenixBureau/Xerblin.git
+    sforman@callix:~$ virtualenv virt-env
+    sforman@callix:~$ source ./virt-env/bin/activate
+    (virt-env)sforman@callix:~$ cd Xerblin/
+    (virt-env)sforman@callix:~/Xerblin$ pip install -r requirements.txt
+
+    ...snip...
+
+    Successfully installed Flask dulwich Werkzeug Jinja2
+    Cleaning up...
+    (virt-env)sforman@callix:~/Xerblin$ python main.py
+     * Running on http://127.0.0.1:5000/
+     * Restarting with reloader
+
+
+Or, if you prefer all the commands by themselves in a script:
+
+    git clone git@github.com:PhoenixBureau/Xerblin.git
+    virtualenv virt-env
+    source ./virt-env/bin/activate
+    cd Xerblin/
+    pip install -r requirements.txt
+    python main.py
+
+### Three Xerblins.
+
+There are *two* entry points to the server, `main.py` which runs a Xerblin interpreter in the server but does _not_ store the history to disk, and `run.py` which _does_ store history to disk and uses the Dulwich git library to store the history in a git repository.
+
+If you start either version a Flask server is created that serves two versions of a webpage that contains an interface to a Xerblin interpreter
+
+*  The "root" URL ('/') serves a self-contained webpage (dependencies are loaded from a CDN) that has the interpreter in Javascript.  You can save this page and edit it to play with a one-page web-based Xerblin.
+* The `/foo` URL serves a varient of the same page that connects (with AJAX) to the server-based Python Xerblin interpreter, which allows the webpage to serve as an interface to it.
+
+If you use the `run.py` entry point you can tell it which directory to use. The _first_ time you run the server with the git history store you must use the `--init` switch, after that you must leave it off. (I know that's a little clumsy, I may change it in the future.)
+
+Here is the output of the `-h` switch which shows the command line options for the `run.py` server entry point:
+
+    (virt-env)sforman@callix:~/Xerblin$ python run.py -h
+    usage: run.py [-h] [-r ROOST] [-i]
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -r ROOST, --roost ROOST
+                            Use this directory as home for the Pigeon system.
+                            (default: $HOME/.pigeon). (I apologize for the
+                            terrible pun.)
+      -i, --init            Initialize the "roost" directory with git repo, log,
+                            system.pickle and default config file. If '--no-
+                            config' is passed the default config file will NOT be
+                            created.)
+
+
+
 
 
 
