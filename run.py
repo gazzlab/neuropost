@@ -3,20 +3,20 @@
 #
 #    Copyright © 2012 Simon Forman
 #
-#    This file is part of Pigeon Computer.
+#    This file is part of Xerblin
 #
-#    Pigeon Computer is free software: you can redistribute it and/or modify
+#    Xerblin is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
-#    Pigeon Computer is distributed in the hope that it will be useful,
+#    Xerblin is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    along with Pigeon Computer.  If not, see <http://www.gnu.org/licenses/>.
+#    along with Xerblin.  If not, see <http://www.gnu.org/licenses/>.
 #
 '''
 Run the Flask server with a World that stores its history in a git repo.
