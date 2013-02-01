@@ -23,37 +23,6 @@ Using the above three relations compound commands can be composed to perform mor
 
 With a rich set of basic commands and the three kinds of compound commands you have a completely general computer interface that allows for customization and flexibility and can be easily understood and mastered by the average user.
 
-### Some links:
-
-*   The [old project on Google Code][a]. This is still the reference implementation.
-*   [Pigeon Computer][b] is a project I have to develop a simple system to teach computer programing. It includes both a low-level version in assembly language and a high-level version in Python with a Tkinter GUI.
-
-### Historical Info
-
-Way back in the day, over a decade ago, the original source for what became "xerblin" was a book ["System Design from Provably Correct Constructs"][c] by [Dr. James Martin][d] [founder, Oxford Martin School][e] ([personal website][f]).
-
-### Must mention:
-
-I need to expand on each of these eventually.
-
-*   Oberon (Wirth, et. al.)
-*   Forth (Moore, et. al.)
-*   Jef Raskin, "The Humane Interface"
-*   Ted Nelson, "Dream Machines"/"Computer Lib"
-*   Alan Kay, Dynabook, VPRI et. al.
-*   Chris Okasaki, "Purely Functional Data Structures"
-
-
-
-[a]: https://code.google.com/p/xerblin/
-[b]: http://thinkpigeon.blogspot.com/?view=mosaic
-
-[c]: http://lccn.loc.gov/84016063 "System Design from Provably Correct Constructs"
-[d]: https://en.wikipedia.org/wiki/James_Martin_%28author%29 "Dr. Martin on Wikipedia"
-[e]: http://www.oxfordmartin.ox.ac.uk/founder/
-[f]: http://www.jamesmartin.com/
-
-
 
 ## Installation
 
@@ -84,7 +53,8 @@ Or, if you prefer all the commands by themselves in a script:
     pip install -r requirements.txt
     python main.py
 
-### Three Xerblins.
+
+### Three Xerblins
 
 There are *two* entry points to the server, `main.py` which runs a Xerblin interpreter in the server but does _not_ store the history to disk, and `run.py` which _does_ store history to disk and uses the Dulwich git library to store the history in a git repository.
 
@@ -92,6 +62,20 @@ If you start either version a Flask server is created that serves two versions o
 
 *  The "root" URL ('/') serves a self-contained webpage (dependencies are loaded from a CDN) that has the interpreter in Javascript.  You can save this page and edit it to play with a one-page web-based Xerblin.
 * The `/foo` URL serves a varient of the same page that connects (with AJAX) to the server-based Python Xerblin interpreter, which allows the webpage to serve as an interface to it.
+
+
+<table>
+    <thead>
+        <td></td><td> /foo </td><td> / </td>
+    </thead>
+    <tr>
+        <td>main.py</td><td>Server-Side Python</td><td>In-Browser Javascript</td>
+    </tr>
+    <tr>
+        <td>run.py</td><td>Server-Side Python with Git History</td><td>In-Browser Javascript</td>
+    </tr>
+</table>
+
 
 If you use the `run.py` entry point you can tell it which directory to use. The _first_ time you run the server with the git history store you must use the `--init` switch, after that you must leave it off. (I know that's a little clumsy, I may change it in the future.)
 
@@ -115,17 +99,51 @@ Basically this gives you an on-disk persistent data structure that captures the 
 
 In effect the persistent Xerblin interpreter provides a programmable UI that the average person can quickly and easily learn to use.  Then it provides (potentially) a web-publishable history that can be shared and used as a resource.
 
-<table>
-    <thead>
-        <td></td><td> /foo </td><td> / </td>
-    </thead>
-    <tr>
-        <td>main.py</td><td>Server-Side Python</td><td>In-Browser Javascript</td>
-    </tr>
-    <tr>
-        <td>run.py</td><td>Server-Side Python with Git History</td><td>In-Browser Javascript</td>
-    </tr>
-</table>
+
+### Basic Interpreter Usage
+
+The interpreter is very simple.  To use it you type in the entry box and hit return or click the "interpret" button.  The text you typed is split on spaces and then evaluated word-by-word.
+
+*  Numbers such as `23` and `88.8` are put on the stack as numerical values (`int` and `float` object in Python, and whatever JS uses in JS.)
+*  Any text that starts and ends with double quote marks `"` and contains no spaces is put onto the stack as a string (the quotes are stripped.)
+*  Words that aren't numbers or text strings are looked up in the dictionary of commands and then executed.  If a word isn't found or fails the entire command line fails and the interpreter does not change state.
+
+You can create new commands by combining existing commands. I posted [a video on Youtube that shows this process][video_demo].  In the video I create two new commands: `sqr` which squares the number on the stack, and `dropall` which "drops" all the items from the stack clearing it for further use.
+
+[video_demo]: http://calroc.github.com/aum-gravity/Henry.html "Demonstration video embedded in a page that includes the interpreter being demo'd."
+
+I am creating more documentation, but in the meantime, here are some more resources.
+
+### Some links:
+
+*   The [old project on Google Code][a]. This is still the reference implementation.
+*   [Pigeon Computer][b] is a project I have to develop a simple system to teach computer programing. It includes both a low-level version in assembly language and a high-level version in Python with a Tkinter GUI.
+
+### Historical Info
+
+Way back in the day, over a decade ago, the original source for what became "xerblin" was a book ["System Design from Provably Correct Constructs"][c] by [Dr. James Martin][d] [founder, Oxford Martin School][e] ([personal website][f]).
+
+### Must mention:
+
+I need to expand on each of these eventually.
+
+*   Oberon (Wirth, et. al.)
+*   Forth (Moore, et. al.)
+*   Jef Raskin, "The Humane Interface"
+*   Ted Nelson, "Dream Machines"/"Computer Lib"
+*   Alan Kay, Dynabook, VPRI et. al.
+*   Chris Okasaki, "Purely Functional Data Structures"
+
+
+
+[a]: https://code.google.com/p/xerblin/
+[b]: http://thinkpigeon.blogspot.com/?view=mosaic
+
+[c]: http://lccn.loc.gov/84016063 "System Design from Provably Correct Constructs"
+[d]: https://en.wikipedia.org/wiki/James_Martin_%28author%29 "Dr. Martin on Wikipedia"
+[e]: http://www.oxfordmartin.ox.ac.uk/founder/
+[f]: http://www.jamesmartin.com/
+
 
 
 
