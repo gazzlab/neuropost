@@ -115,7 +115,17 @@ Basically this gives you an on-disk persistent data structure that captures the 
 
 In effect the persistent Xerblin interpreter provides a programmable UI that the average person can quickly and easily learn to use.  Then it provides (potentially) a web-publishable history that can be shared and used as a resource.
 
-
+<table>
+    <thead>
+        <td></td><td> /foo </td><td> / </td>
+    </thead>
+    <tr>
+        <td>main.py</td><td>Server-Side Python</td><td>In-Browser Javascript</td>
+    </tr>
+    <tr>
+        <td>run.py</td><td>Server-Side Python with Git History</td><td>In-Browser Javascript</td>
+    </tr>
+</table>
 
 
 
