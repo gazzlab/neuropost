@@ -97,23 +97,23 @@ If you use the `run.py` entry point you can tell it which directory to use. The 
 
 Here is the output of the `-h` switch which shows the command line options for the `run.py` server entry point:
 
-    (virt-env)sforman@callix:~/Xerblin$ python run.py -h
     usage: run.py [-h] [-r ROOST] [-i]
-
+    
     optional arguments:
       -h, --help            show this help message and exit
       -r ROOST, --roost ROOST
                             Use this directory as home for the Pigeon system.
-                            (default: $HOME/.pigeon). (I apologize for the
+                            (default: /home/sforman/.pigeon). (I apologize for the
                             terrible pun.)
-      -i, --init            Initialize the "roost" directory with git repo, log,
-                            system.pickle and default config file. If '--no-
-                            config' is passed the default config file will NOT be
-                            created.)
+      -i, --init            Initialize the "roost" directory with git repo and
+                            system.pickle.
 
 
+Run it once the first time with the `--init` option, after that you leave it off.  It starts a Flask server and you can open a browser window and interact with it.  If you use the same "roost" directory it will reload the last saved state when you restart the server.  Each time you issue a command to the interpreter it will save the state (this is per command line, not per command _in_ the command line.)
 
+Basically this gives you an on-disk persistent data structure that captures the entire history of your interaction with the interpreter.  Soon I will implement ways to "cherry pick" data and commands from past history so you can build new interpreter state that contains just the data and commands you want for a particular task.
 
+In effect the persistent Xerblin interpreter provides a programmable UI that the average person can quickly and easily learn to use.  Then it provides (potentially) a web-publishable history that can be shared and used as a resource.
 
 
 
