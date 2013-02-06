@@ -62,7 +62,7 @@ function bar() {
   var n = history_list.length;
   var sd = $('#stack_display');
   sd.contents().remove();
-  stack_item(history_list[history_list.length - 1], sd);
+  stack_item(history_list[n - 1], sd);
 }
 
 function stack_item(stack, list) {

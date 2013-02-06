@@ -97,6 +97,14 @@ function display_array(A, list) {
 //  Interpret commands and update the display.
 //#######################################################################
 
+  function post_command(cmd) {
+    $.post("/step", {"command":cmd}, function(data) {
+      history_list.push(data.result[0]);
+      bar();
+      create_dictionary_buttons(data.result[1]);
+    });
+  }
+
   function create_dictionary_buttons(names) {
     $("#dictionary_buttons").find('a').remove();
     _.each(names, function(name) {
@@ -106,14 +114,6 @@ function display_array(A, list) {
       var cmd = $(this).text();
       post_command(cmd);
       return false;
-    });
-  }
-
-  function post_command(cmd) {
-    $.post("/step", {"command":cmd}, function(data) {
-      history_list.push(data.result[0]);
-      bar();
-      create_dictionary_buttons(data.result[1]);
     });
   }
 
