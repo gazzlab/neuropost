@@ -142,7 +142,7 @@
   xerblin.interpret = function interpret(I, command) {
     var result;
     try {
-      result = raw_interpret(I, command);
+      result = xerblin.raw_interpret(I, command);
     } catch(e) {
       result = I;
     }
