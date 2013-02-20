@@ -120,7 +120,7 @@
     return [stack, I[1]];
   }
 
-  xerblin.interpret = function interpret(I, command) {
+  xerblin.raw_interpret = function raw_interpret(I, command) {
     return _.reduce(command, function(interpreter, word) {
       var stack = interpreter[0], dictionary = interpreter[1];
       var n = Number(word);
@@ -137,6 +137,16 @@
       func = xerblin.get(dictionary, word);
       return apply_func(interpreter, func);
     }, I);
+  }
+
+  xerblin.interpret = function interpret(I, command) {
+    var result;
+    try {
+      result = raw_interpret(I, command);
+    } catch(e) {
+      result = I;
+    }
+    return result;
   }
 
   var library = {
