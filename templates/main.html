@@ -4,12 +4,7 @@
 <link href="./static/site.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block script %}
-{% if foo is defined %}
 <script src="./static/main.js"></script>
-{% else %}
-<script src="./static/xerblin.js"></script>
-<script src="./static/local-main.js"></script>
-{% endif %}
 {% endblock %}
 {% block body %}
 <h1>Brain-O-Scope</h1>
