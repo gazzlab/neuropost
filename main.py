@@ -39,7 +39,7 @@ else:
 
 @app.route("/")
 def x():
-  return render_template('xerblin.html')
+  return render_template('main.html')
 
 
 @app.route("/foo")

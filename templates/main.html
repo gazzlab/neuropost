@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title_block %}Gazzian{% endblock %}
+{% block extra_head %}
+<style>
+/* from Foundation CSS */
+input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], textarea { background-color: white; font-family: inherit; border: 1px solid #cccccc; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); color: rgba(0, 0, 0, 0.75); display: block; font-size: 14px; margin: 0 0 12px 0; padding: 6px; height: 32px; width: 100%; -webkit-transition: all 0.15s linear; -moz-transition: all 0.15s linear; -o-transition: all 0.15s linear; transition: all 0.15s linear; }
+input[type="text"].oversize, input[type="password"].oversize, input[type="date"].oversize, input[type="datetime"].oversize, input[type="email"].oversize, input[type="number"].oversize, input[type="search"].oversize, input[type="tel"].oversize, input[type="time"].oversize, input[type="url"].oversize, textarea.oversize { font-size: 17px; padding: 4px 6px; }
+input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="time"]:focus, input[type="url"]:focus, textarea:focus { background: #fafafa; border-color: #b3b3b3; }
+input[type="text"][disabled], input[type="password"][disabled], input[type="date"][disabled], input[type="datetime"][disabled], input[type="email"][disabled], input[type="number"][disabled], input[type="search"][disabled], input[type="tel"][disabled], input[type="time"][disabled], input[type="url"][disabled], textarea[disabled] { background-color: #ddd; }
+textarea { height: auto; }
+select { width: 100%; }
+
+/* Some bits of miscellaneous CSS */
+
+@import url(http://fonts.googleapis.com/css?family=Cutive|Oxygen:400,700);
+
+body {
+    line-height: 1.5;
+    font-family: 'Oxygen', serif;
+    color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6, .heavy {
+	font-family: 'Cutive', sans-serif;
+	font-weight: bold;
+}
+
+
+#container {
+  border: 1px dashed gray;
+  padding-left: 2em;
+}
+
+#commande, #meta_controls {
+  display: inline;
+}
+
+#commande {
+  width: 38%;
+}
+
+form {
+  padding: 1em;
+  margin: 0.5em;
+}
+
+#docs {
+/*
+  font-family: 'Cutive',sans-serif;
+  max-width: 33em;
+  margin-left: 5em;
+*/
+}
+#docs ul {
+  border: none;
+  margin-left: 2em;
+}
+
+#container ul {
+  border: 1px dashed gray;
+  padding: 3px;
+  margin: 3px;
+}
+
+</style>
+{% endblock %}
+{% block script %}
+{% if foo is defined %}
+<script src="./static/main.js"></script>
+{% else %}
+<script src="./static/xerblin.js"></script>
+<script src="./static/local-main.js"></script>
+{% endif %}
+{% endblock %}
+{% block body %}
+<h1>Brain-O-Scope</h1>
+<h3>Human-Computer Neural Interface</h3>
+<div id="docs">
+
+  <div id="container">
+
+  <div style="float:left">
+   <h3>Stack of Data</h3>
+   <ul id="stack_display"></ul>
+  </div>
+
+  <div style="float:right;width:62%">
+   <h3>Dictionary of Commands</h3>
+   <div id="dictionary_buttons"></div>
+  </div>
+
+  <div style="clear:both;"></div>
+  <div>
+   <h3>Interpreter</h3>
+   <form>
+    <input id="commande" name="command" type="text" />
+    <div id="meta_controls">
+     <a href="#" id="runit">interpret</a>
+     <a href="#" id="stackit">push as text</a>
+     <a href="#" id="clear_entry">clear text</a>
+    </div>
+   </form>
+  </div>
+
+  </div>
+
+</div>
+{% endblock %}
