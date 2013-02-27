@@ -28,12 +28,20 @@ class User(Base):
 
 engine = create_engine('sqlite:///:memory:', echo=True)
 Base.metadata.create_all(engine)
+
 Session = sessionmaker(bind=engine)
 session = Session()
+
 ed_user = User('ed', 'Ed Jones', 'edspassword')
 print >> sys.stderr, ed_user.id
+
 session.add(ed_user)
 print >> sys.stderr, ed_user.id
+
 session.commit()
 print >> sys.stderr, 'commit'
 print >> sys.stderr, ed_user.id
+
+
+def load_user(uid):
+    return ed_user

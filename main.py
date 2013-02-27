@@ -3,7 +3,10 @@
 import os, json
 from types import FunctionType
 from flask import Flask, render_template, Response, request
+from flask.ext.login import LoginManager
 from xerblin import World, items
+from data_models import load_user
+from sooper_sekrit import secret
 
 
 W = World()
@@ -17,6 +20,12 @@ if os.path.exists(WEBFACTION_TEMPLATES):
 else:
   app = Flask(__name__)
   app.debug = True
+
+
+app.secret_key = secret
+login_manager = LoginManager()
+login_manager.setup_app(app)
+load_user = login_manager.user_loader(load_user)
 
 
 @app.route("/")
