@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title_block %}Gazzian Login{% endblock %}
+{% block extra_head %}
+<link href="./static/site.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block body %}
+<h1>Login</h1>
+<h3>Login Login!</h3>
+<div class="container">
+  <form action="/login" method="POST">
+    <input id="user" name="user" type="text" />
+    <input id="pasw" name="pasw" type="password" />
+    <input value="Login" type="submit" />
+  </form>
+</div>
+{% endblock %}

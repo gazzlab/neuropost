@@ -26,6 +26,7 @@ app.secret_key = secret
 login_manager = LoginManager()
 login_manager.setup_app(app)
 load_user = login_manager.user_loader(load_user)
+login_manager.login_view = "login"
 
 
 @app.route("/")
@@ -77,6 +78,11 @@ def step():
     response='{"result":%s}' % (res,),
     mimetype='application/json',
     )
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+  return render_template('login.html')
 
 
 if __name__ == "__main__":
