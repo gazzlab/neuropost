@@ -34,3 +34,4 @@ nosetests.xml
 .project
 .pydevproject
 virt-env/
+third-party/virtualenv-1.9rc1/
