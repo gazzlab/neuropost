@@ -3,7 +3,7 @@
 import os, json
 from types import FunctionType
 from flask import Flask, render_template, Response, request
-from flask.ext.login import LoginManager
+from flask.ext.login import LoginManager, login_required
 from xerblin import World, items
 from data_models import load_user
 from sooper_sekrit import secret
@@ -34,6 +34,7 @@ def x():
 
 
 @app.route("/foo")
+@login_required
 def foo():
   return render_template('xerblin.html', foo=True)
 
