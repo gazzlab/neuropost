@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 import os, json
 from types import FunctionType
-from flask import Flask, render_template, Response, request
-from flask.ext.login import LoginManager, login_required
+from flask import Flask, render_template, Response, request, redirect
+from flask.ext.login import LoginManager, login_required, login_user, current_user
 from xerblin import World, items
 from data_models import load_user
 from sooper_sekrit import secret
@@ -82,7 +82,23 @@ def step():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-  return render_template('login.html')
+  if request.method == 'GET':
+    if current_user.is_anonymous():
+      return render_template('login.html')
+    # redirect to somewhere sensible.
+
+  username = request.form['user']
+  pw = request.form['pasw']
+
+  from data_models import ed_user
+  login_user(ed_user)
+
+  print '_' * 80
+  print username
+  print current_user
+  print 
+  print '_' * 80
+  return redirect(request.args.get("next") or '/')
 
 
 if __name__ == "__main__":

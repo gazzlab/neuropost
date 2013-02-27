@@ -25,6 +25,19 @@ class User(Base):
     def __repr__(self):
         return "<User('%s','%s', '%s')>" % (self.name, self.fullname, self.password)
 
+    def is_authenticated(self):
+        return False
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        assert self.id is not None
+        return unicode(self.id)
+
 
 engine = create_engine('sqlite:///:memory:', echo=True)
 Base.metadata.create_all(engine)
