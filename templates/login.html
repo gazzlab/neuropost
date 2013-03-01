@@ -7,7 +7,7 @@
 <h1>Login</h1>
 <h3>Login Login!</h3>
 <div class="container">
-  <form action="/login" method="POST">
+  <form action="/login{% if next %}?next={{ next }}{% endif %}" method="POST">
     <input id="user" name="user" type="text" />
     <input id="pasw" name="pasw" type="password" />
     <input value="Login" type="submit" />

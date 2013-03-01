@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title_block %}Gazzian Logout{% endblock %}
+{% block extra_head %}
+<link href="./static/site.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block body %}
+<h1>Logout</h1>
+<div class="container">
+  <form action="/logout" method="POST">
+    <input value="Logout" type="submit" />
+  </form>
+</div>
+{% endblock %}
