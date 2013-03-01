@@ -9,34 +9,30 @@
 {% block body %}
 <h1>Brain-O-Scope</h1>
 <h3>Human-Computer Neural Interface</h3>
-<div id="docs">
+<div id="container">
 
-  <div id="container">
+<div style="float:left">
+ <h3>Stack of Data</h3>
+ <ul id="stack_display"></ul>
+</div>
 
-  <div style="float:left">
-   <h3>Stack of Data</h3>
-   <ul id="stack_display"></ul>
+<div style="float:right;width:62%">
+ <h3>Dictionary of Commands</h3>
+ <div id="dictionary_buttons"></div>
+</div>
+
+<div style="clear:both;"></div>
+<div>
+ <h3>Interpreter</h3>
+ <form>
+  <input id="commande" name="command" type="text" />
+  <div id="meta_controls">
+   <a href="#" id="runit">interpret</a>
+   <a href="#" id="stackit">push as text</a>
+   <a href="#" id="clear_entry">clear text</a>
   </div>
-
-  <div style="float:right;width:62%">
-   <h3>Dictionary of Commands</h3>
-   <div id="dictionary_buttons"></div>
-  </div>
-
-  <div style="clear:both;"></div>
-  <div>
-   <h3>Interpreter</h3>
-   <form>
-    <input id="commande" name="command" type="text" />
-    <div id="meta_controls">
-     <a href="#" id="runit">interpret</a>
-     <a href="#" id="stackit">push as text</a>
-     <a href="#" id="clear_entry">clear text</a>
-    </div>
-   </form>
-  </div>
-
-  </div>
+ </form>
+</div>
 
 </div>
 {% endblock %}

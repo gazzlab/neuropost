@@ -6,4 +6,7 @@ install Pip and then the requirements:
     $ source ./virt-env/bin/activate
     $ pip install -r requirements.txt
 
+You also need to create a file called "sooper_sekrit.py" and define a
+single variable "secret" that contains the random "app secret" for
+creating sessions.
 
