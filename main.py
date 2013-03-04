@@ -11,6 +11,7 @@ from flask.ext.login import (
   logout_user,
   )
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.openid import OpenID
 from xerblin import World, items
 from sooper_sekrit import secret
 
@@ -19,6 +20,7 @@ W = World()
 
 
 WEBFACTION_TEMPLATES = '/home/calroc/webapps/smlaum/templates'
+OPENID_STORE = '/tmp/oid.store'
 
 
 if os.path.exists(WEBFACTION_TEMPLATES):
@@ -42,15 +44,17 @@ class User(db.Model):
     id = db.Column(db.Integer, db.Sequence('user_id_seq'), primary_key=True)
     name = db.Column(db.String(50))
     fullname = db.Column(db.String(50))
+    email = db.Column(db.String(50))
     password = db.Column(db.String(12))
 
-    def __init__(self, name, fullname, password):
+    def __init__(self, name, fullname, email, password):
         self.name = name
         self.fullname = fullname
+        self.email = email
         self.password = password
 
     def __repr__(self):
-        return "<User('%s','%s', '%s')>" % (self.name, self.fullname, self.password)
+        return "<User('%s','%s', '%s')>" % (self.name, self.fullname, self.email)
 
     def is_authenticated(self):
         return True
@@ -78,6 +82,9 @@ def load_user(uid):
   except ValueError:
     return None
   return User.query.filter_by(id=uid).first()
+
+
+oid = OpenID(app, OPENID_STORE)
 
 
 @app.route("/")
@@ -132,18 +139,28 @@ def step():
 
 
 @app.route("/login", methods=["GET", "POST"])
+@oid.loginhandler
 def login():
   if request.method == 'GET':
     if current_user.is_anonymous():
-      return render_template('login.html', next=request.args.get("next"))
+      return render_template(
+        'login.html',
+        next=oid.get_next_url(),
+        error=oid.fetch_error()
+        )
     return redirect('/logout')
+
+  open_id = request.form.get('openid')
+  if open_id:
+    return oid.try_login(open_id, ask_for=['email', 'fullname', 'nickname'])
 
   username = request.form['user']
   pw = request.form['pasw']
   user = User.query.filter_by(name=username, password=pw).first()
+
   if user:
     login_user(user)
-    return redirect(request.args.get("next") or '/')
+    return redirect(oid.get_next_url() or '/')
   return redirect('/Bah')
 
 
@@ -154,6 +171,29 @@ def logout():
       return render_template('logout.html')
     logout_user()
   return redirect('/login')
+
+
+@oid.after_login
+def after_login(response):
+  email_address = response.email
+  if not email_address:
+    flash('Invalid login. Please try again.')
+    return redirect('/login')
+
+  user = User.query.filter_by(email=email_address).first()
+  if not user:
+      nickname = response.nickname or email_address.split('@', 1)[0]
+      user = User(
+        name=nickname,
+        fullname=response.fullname,
+        email=email_address,
+        password="",
+        )
+      db.session.add(user)
+      db.session.commit()
+
+  login_user(user)
+  return redirect(request.args.get('next') or '/')
 
 
 if __name__ == "__main__":

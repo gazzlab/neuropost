@@ -5,12 +5,20 @@
 {% endblock %}
 {% block body %}
 <h1>Login</h1>
-<h3>Login Login!</h3>
+{% if error %}<p class=error><strong>Error:</strong> {{ error }}</p>{% endif %}
+<form action="/login{% if next %}?next={{ next }}{% endif %}" method="POST">
 <div class="container">
-  <form action="/login{% if next %}?next={{ next }}{% endif %}" method="POST">
-    <input id="user" name="user" type="text" />
-    <input id="pasw" name="pasw" type="password" />
-    <input value="Login" type="submit" />
-  </form>
+  <h3>Login with your username</h3>
+  <input id="user" name="user" type="text" />
+  <input id="pasw" name="pasw" type="password" />
+  <input value="Login" type="submit" />
 </div>
+
+<div class="container">
+  <h3>Login with OpenID</h3>
+  OpenID: <input type=text name=openid size=30>
+  <input type=submit value="Sign in">
+  {% if next %}<input type=hidden name=next value="{{ next }}">{% endif %}
+</div>
+</form>
 {% endblock %}
