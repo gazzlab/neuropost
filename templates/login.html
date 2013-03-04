@@ -6,7 +6,7 @@
 {% block body %}
 <h1>Login</h1>
 {% if error %}<p class=error><strong>Error:</strong> {{ error }}</p>{% endif %}
-<form action="/login{% if next %}?next={{ next }}{% endif %}" method="POST">
+<form action="/login" method="POST">
 <div class="container">
   <h3>Login with your username</h3>
   <input id="user" name="user" type="text" />

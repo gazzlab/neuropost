@@ -193,7 +193,7 @@ def after_login(response):
       db.session.commit()
 
   login_user(user)
-  return redirect(request.args.get('next') or '/')
+  return redirect(oid.get_next_url() or '/')
 
 
 if __name__ == "__main__":
